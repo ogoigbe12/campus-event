@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "campus-event",
-    "slug": "campus-event",
+    "name": "campus-pulse",
+    "slug": "campus-pulse",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

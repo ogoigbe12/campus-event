@@ -1,14 +1,15 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { Redirect } from "expo-router";
+import React from "react";
+import {  View } from "react-native";
 
-type Props = {}
+type Props = {};
 
 const index = (props: Props) => {
   return (
-    <View>
-      <Text>index</Text>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Redirect href={'/landing'}/>
     </View>
-  )
-}
+  );
+};
 
-export default index
+export default index;
