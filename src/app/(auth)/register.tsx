@@ -7,8 +7,8 @@ import * as ImagePicker from "expo-image-picker";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { Image, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from "react-native";
-import {upload} from 'cloudinary-react-native';
-import { cld, options } from "@/src/config/CloudinaryConfig";
+// import {upload} from 'cloudinary-react-native';
+// import { cld, options } from "@/src/config/CloudinaryConfig";
 
 const Register = () => {
   const [profileImage, setProfileImage] = useState<string | undefined>();
@@ -26,18 +26,18 @@ const Register = () => {
     .then(async(userCredentials) => {
       console.log(userCredentials)
       // upload the profile image
-      await upload(cld,{
-        file: profileImage,
-        options:options,
-        callback:async(error:any,response:any) => {
-          if(error){
-            console.log(error)
-          } 
-          if(response){
-            console.log(response)
-          }
-        }
-      })
+      // await upload(cld,{
+      //   file: profileImage,
+      //   options:options,
+      //   callback:async(error:any,response:any) => {
+      //     if(error){
+      //       console.log(error)
+      //     } 
+      //     if(response){
+      //       console.log(response)
+      //     }
+      //   }
+      // })
 
     }).catch((error) => {
       const errorCMessage = error?.message;
