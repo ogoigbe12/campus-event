@@ -16,7 +16,8 @@ export default function TextInputField({
   return (
     <View style={{ marginTop: 10 }}>
       <Text style={{ color: Colors.Gray }}>{label}</Text>
-      <TextInput placeholder={label} style={styles.textInput} secureTextEntry={password}/>
+      <TextInput placeholder={label} style={styles.textInput} secureTextEntry={password}
+      onChangeText={onChangeText}/>
 
     </View>
   );

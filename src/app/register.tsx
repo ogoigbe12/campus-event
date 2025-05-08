@@ -1,12 +1,14 @@
 import Button from "@/src/components/Button";
 import TextInputField from "@/src/components/TextInputField";
+import {auth} from "@/src/config/FirebaseConfig";
 import { Colors } from "@/src/constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import * as ImagePicker from "expo-image-picker";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from "react-native";
 
-export default function SignUp() {
+const Register = () => {
   const [profileImage, setProfileImage] = useState<string | undefined>();
   const [firstName, setFirstName] = useState<string | undefined>();
   const [lastName, setLastName] = useState<string | undefined>();
@@ -14,7 +16,29 @@ export default function SignUp() {
   const [password, setPassword] = useState<string | undefined>();
   // const [confirmPassword, setConfirmPassword] = useState<string|undefined>();
   const onBrtPress = () => {
-    console.log("Button Pressed");
+    if (!firstName ||!lastName || !email || !password) {
+      ToastAndroid.show("Please enter all details", ToastAndroid.TOP);
+      return;
+    }
+    // createUserWithEmailAndPassword(auth, email, password)
+    // .then(async(userCredentials) => {
+
+    // }).catch((error) => {
+    //   const errorCMessage = error?.message;
+    //   ToastAndroid.show(errorCMessage, ToastAndroid.BOTTOM);
+    // })
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(async (userCredentials) => {
+        const user = userCredentials.user;
+        console.log("Registered with:", user.email);
+        ToastAndroid.show("Account Created", ToastAndroid.TOP);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+        ToastAndroid.show(errorMessage, ToastAndroid.BOTTOM);
+      });
   };
 
   const pickImage = async () => {
@@ -99,3 +123,5 @@ const styles = StyleSheet.create({
     padding: 5,
   },
 });
+
+export default Register;

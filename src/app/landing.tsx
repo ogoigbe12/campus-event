@@ -23,9 +23,9 @@ export default function LandingScreen() {
         </Text>
         <Button
           text="Get Started"
-          onPress={() => router.push("/(auth)/SignUp")}
+          onPress={() => router.push("/register")}
         />
-        <Pressable onPress={() => router.push("/(auth)/SignIn")}>
+        <Pressable onPress={() => router.push("/login")}>
           <Text style={styles.textSignIn}>
             Already have an account? Sign In Here{" "}
           </Text>

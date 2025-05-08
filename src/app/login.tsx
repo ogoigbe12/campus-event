@@ -1,10 +1,11 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function SignIn() {
+const Login = () => {
   return (
     <View>
       <Text>SignIn</Text>
     </View>
   )
 }
+export default Login
