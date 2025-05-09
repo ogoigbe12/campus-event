@@ -9,13 +9,13 @@ import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBMFPQ1dVSgdf5my4ENNz3EH4DANnJJlhU",
-  authDomain: "shopping-list-ebdbe.firebaseapp.com",
-  databaseURL: "https://shopping-list-ebdbe-default-rtdb.firebaseio.com",
-  projectId: "shopping-list-ebdbe",
-  storageBucket: "shopping-list-ebdbe.firebasestorage.app",
-  messagingSenderId: "1020925657484",
-  appId: "1:1020925657484:web:a5e30276cab7097acf96a9",
+  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.EXPO_PUBLIC_FIREBASE_DATABASE_URL,
+  projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase

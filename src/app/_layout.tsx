@@ -22,7 +22,7 @@ export default function RootLayout() {
         {/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} /> */}
         <Stack.Screen name="landing" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)/register" options={{ headerTitle: '', headerTransparent: true }} />
-        <Stack.Screen name="(auth)/login" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)/login" options={{  headerTitle: '', headerTransparent: true  }} />
 
 
         </Stack>

@@ -1,65 +1,66 @@
 import Button from "@/src/components/Button";
 import TextInputField from "@/src/components/TextInputField";
-import {auth} from "@/src/config/FirebaseConfig";
+import { auth } from "@/src/config/FirebaseConfig";
 import { Colors } from "@/src/constants/Colors";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import * as ImagePicker from "expo-image-picker";
+// import { AuthContext } from "@/src/context/AuthContext"; // Adjust the path as needed
+import axios from "axios";
+import { useRouter } from "expo-router";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
-import { Image, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
+} from "react-native";
 // import {upload} from 'cloudinary-react-native';
 // import { cld, options } from "@/src/config/CloudinaryConfig";
 
 const Register = () => {
-  const [profileImage, setProfileImage] = useState<string | undefined>();
+  // const [profileImage, setProfileImage] = useState<string | undefined>();
   const [firstName, setFirstName] = useState<string | undefined>();
   const [lastName, setLastName] = useState<string | undefined>();
   const [email, setEmail] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
-  // const [confirmPassword, setConfirmPassword] = useState<string|undefined>();
+  const [loading, setLoading] = useState(false);
+  // const [user, setUser] = useContext(AuthContext);
+  const router = useRouter();
+
   const onBrtPress = () => {
-    if (!firstName ||!lastName || !email || !password) {
+    if (!firstName || !lastName || !email || !password) {
       ToastAndroid.show("Please enter all details", ToastAndroid.TOP);
       return;
     }
+
+    setLoading(true);
+
     createUserWithEmailAndPassword(auth, email, password)
-    .then(async(userCredentials) => {
-      console.log(userCredentials)
-      // upload the profile image
-      // await upload(cld,{
-      //   file: profileImage,
-      //   options:options,
-      //   callback:async(error:any,response:any) => {
-      //     if(error){
-      //       console.log(error)
-      //     } 
-      //     if(response){
-      //       console.log(response)
-      //     }
-      //   }
-      // })
-
-    }).catch((error) => {
-      const errorCMessage = error?.message;
-      ToastAndroid.show(errorCMessage, ToastAndroid.BOTTOM);
-    })
-    
-  };
-
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images"],
-      allowsEditing: true,
-      aspect: [4, 4],
-      quality: 0.5,
-    });
-
-    console.log(result);
-
-    if (!result.canceled) {
-      setProfileImage(result.assets[0].uri);
-    }
+      .then(async (userCredentials) => {
+        try {
+          const response = await axios.post(
+            process.env.EXPO_PUBLIC_HOST_URL + "/user",
+            {
+              firstName,
+              lastName,
+              email,
+            }
+          );
+          console.log(response.data); // Only log the data portion
+          router.push("/landing");
+        } catch (err: any) {
+          console.log("Axios error:", err?.message || err);
+          ToastAndroid.show("Failed to save user data", ToastAndroid.BOTTOM);
+        } finally {
+          setLoading(false);
+        }
+      })
+      .catch((error) => {
+        const errorMessage = error?.message || "Registration error";
+        ToastAndroid.show(errorMessage, ToastAndroid.BOTTOM);
+        setLoading(false);
+      });
   };
 
   return (
@@ -68,21 +69,23 @@ const Register = () => {
 
       <View style={styles.imageContainer}>
         <View>
-          <TouchableOpacity onPress={() => pickImage()}>
-            {profileImage ? (
+          <TouchableOpacity
+          // onPress={() => pickImage()}
+          >
+            {/* {profileImage ? (
               <Image source={{ uri: profileImage }} style={styles.imageStyle} />
-            ) : (
-              <Image
-                source={require("@/assets/images/profile.png")}
-                style={styles.imageStyle}
-              />
-            )}
-            <Ionicons
+            ) : ( */}
+            <Image
+              source={require("@/assets/images/logo.png")}
+              style={styles.imageStyle}
+            />
+            {/* )} */}
+            {/* <Ionicons
               name="camera"
               size={24}
               color={Colors.PRIMARY}
               style={styles.iconStyle}
-            />
+            /> */}
           </TouchableOpacity>
         </View>
       </View>
@@ -98,7 +101,7 @@ const Register = () => {
       <Button text="Create Account" onPress={() => onBrtPress()} />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
